@@ -1,64 +1,50 @@
-import React from "react"
-import {
-  View,
-  Image,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet
-} from "react-native"
+import React, { useState } from "react";
+import { SafeAreaView, StyleSheet, TextInput, Button, Text, View } from "react-native";
 
-const WelcomeScreen = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={styles.group} />
-        <View style={styles.group}>
-          <Image style={styles.logo} source={require("./logo.png")} />
-          <Text style={styles.text}>
-            Let's build something amazing together!
-          </Text>
-        </View>
-        <Text style={styles.footer}>Made with ❤️ by Crowdbotics</Text>
-      </ScrollView>
-    </SafeAreaView>
-  )
-}
+const StockPricePredictionScreen = () => {
+  const [stockPrice, setStockPrice] = useState('');
+  const [predictedPrice, setPredictedPrice] = useState(null);
+
+  const handlePrediction = () => {
+    // This is where you would integrate your prediction logic or API call
+    // For demonstration, we'll just mock a predicted price
+    const mockPredictedPrice = (parseFloat(stockPrice) * 1.1).toFixed(2);
+    setPredictedPrice(mockPredictedPrice);
+  };
+
+  return <SafeAreaView style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.input} placeholder="Enter Stock Price" keyboardType="numeric" value={stockPrice} onChangeText={setStockPrice} />
+        <Button title="Predict" onPress={handlePrediction} />
+      </View>
+      {predictedPrice && <Text style={styles.predictionText}>
+          Predicted Stock Price: ${predictedPrice}
+        </Text>}
+    </SafeAreaView>;
+};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F8F8FC",
-    height: "100%"
-  },
-  scrollView: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 20
   },
-  group: {
-    alignItems: "center"
-  },
-  logo: {
-    height: 180,
-    width: 180,
-    padding: 40,
-    borderRadius: 30,
-    margin: 40
-  },
-  text: {
-    textAlign: "center",
-    fontSize: 28,
-    color: "#828AB0",
-    fontWeight: 700
-  },
-  footer: {
-    textAlign: "center",
-    fontSize: 18,
-    color: "#828AB0",
-    fontWeight: 700,
+  inputContainer: {
+    width: '100%',
     marginBottom: 20
+  },
+  input: {
+    height: 40,
+    marginVertical: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+    borderColor: '#cccccc'
+  },
+  predictionText: {
+    fontSize: 18,
+    marginTop: 20
   }
-})
-
-export default WelcomeScreen
+});
+export default StockPricePredictionScreen;
